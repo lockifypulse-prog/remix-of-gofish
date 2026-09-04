@@ -142,10 +142,10 @@ export function WalletButton() {
         </span>
       </button>
       <div className="divide-y divide-white/5">
-        <BalanceRow symbol="ETH" value={ethValue} tint="bg-sky-300" />
-        <BalanceRow symbol="USDG" value="0.00" tint="bg-emerald-300" />
-        <BalanceRow symbol="GOLD" value="0" tint="bg-amber-300" />
-        <BalanceRow symbol="COINS" value="0" tint="bg-orange-300" />
+        <BalanceRow symbol="ETH" value={ethValue} logo="/logo-eth.png" />
+        <BalanceRow symbol="USDG" value="0.00" logo="/logo-usdg.png" />
+        <BalanceRow symbol="GOLD" value="0" logo={goldLogo} />
+        <BalanceRow symbol="COINS" value="0" logo={coinsLogo} />
       </div>
     </div>
   );
