@@ -473,7 +473,7 @@ export function Angler() {
         st.t = 0;
         st.fish = rollFish();
         setPhase("bite");
-        setMessage("SAMBARAN! Tekan SPASI / ENTER sekarang!");
+        setMessage("FISH ON! Press SPACE / ENTER now!");
       }
     } else if (st.phase === "bite") {
       // bobber yanked under, rod tip loaded
@@ -493,7 +493,7 @@ export function Angler() {
         st.t = 0;
         st.fish = null;
         setPhase("idle");
-        setMessage("Ikan lolos! Coba lempar lagi.");
+        setMessage("It got away! Cast again.");
       }
     } else if (st.phase === "reel") {
       const isMonsterFight = !!st.fish?.isMonster;
@@ -583,7 +583,7 @@ export function Angler() {
         playBobberSplash(1.6);
         if (st.fish) {
           landFish(st.fish);
-          setMessage(`Dapat ${st.fish.name} — ${st.fish.weight} kg!`);
+          setMessage(`Caught ${st.fish.name} — ${st.fish.weight} kg!`);
         }
       }
 
@@ -663,7 +663,7 @@ export function Angler() {
           st.phase = "idle";
           st.t = 0;
           setPhase("idle");
-          setMessage("Monster Purba tertangkap! ENTER / klik kiri untuk melempar lagi.");
+          setMessage("Ancient Leviathan caught! Press ENTER / left click to cast again.");
         }
       } else {
         // ---------- normal fish caught (unchanged) ----------
@@ -703,7 +703,7 @@ export function Angler() {
           st.phase = "idle";
           st.t = 0;
           setPhase("idle");
-          setMessage("ENTER / klik kiri untuk melempar kail lagi");
+          setMessage("Press ENTER / left click to cast again");
         }
       }
     } else {
