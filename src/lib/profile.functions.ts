@@ -89,11 +89,11 @@ export const updateProfile = createServerFn({ method: "POST" })
     if (taken.error) throw new Error(taken.error.message);
     if (taken.data) throw new Error("That username is already taken.");
 
-    const patch: Record<string, unknown> = {
+    const patch: { username: string; display_name: string; avatar_url?: string | null } = {
       username: data.username,
       display_name: data.displayName,
     };
-    if (data.avatarPath !== undefined) patch['avatar_url'] = data.avatarPath;
+    if (data.avatarPath !== undefined) patch.avatar_url = data.avatarPath ?? null;
 
     const updated = await supabaseAdmin
       .from("profiles")
