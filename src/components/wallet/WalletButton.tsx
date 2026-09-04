@@ -6,6 +6,8 @@ import { robinhoodChain } from "@/lib/chains";
 import { useProfileStore } from "@/hooks/useProfileStore";
 import { useWalletProfile } from "@/hooks/useWalletProfile";
 import { supabase } from "@/integrations/supabase/client";
+import goldLogo from "@/assets/logo-gold.png";
+import coinsLogo from "@/assets/logo-coins.png";
 
 /** Round profile avatar: uploaded photo when available, initials otherwise, with a level badge. */
 function ProfileAvatar({ size = "h-9 w-9" }: { size?: string }) {
