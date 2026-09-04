@@ -289,7 +289,7 @@ export function WorldEditor() {
         {/* ---- placed objects ---------------------------------------- */}
         <section className="space-y-2">
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Objek di Dunia ({s.objects.length})
+            Objects in World ({s.objects.length})
           </h3>
           <ul className="space-y-1">
             {s.objects.map((o) => (
@@ -309,7 +309,7 @@ export function WorldEditor() {
             ))}
             {s.objects.length === 0 && (
               <li className="text-[11px] text-slate-500">
-                Dunia kosong — impor model lalu klik “Tempatkan”.
+                World is empty — import a model then click “Place”.
               </li>
             )}
           </ul>
@@ -328,13 +328,13 @@ export function WorldEditor() {
                 onClick={() => s.duplicateObject(selected.id)}
                 className="rounded-md bg-white/10 px-2 py-1 text-[10px] hover:bg-white/20"
               >
-                Duplikat
+                Duplicate
               </button>
               <button
                 onClick={() => s.removeObject(selected.id)}
                 className="rounded-md bg-rose-500/80 px-2 py-1 text-[10px] font-semibold hover:bg-rose-500"
               >
-                Hapus
+                Delete
               </button>
             </div>
 
@@ -353,26 +353,26 @@ export function WorldEditor() {
             </div>
 
             <NumRow
-              label="Posisi"
+              label="Position"
               step={0.5}
               value={selected.position}
               onChange={(position) => s.updateObject(selected.id, { position })}
             />
             <NumRow
-              label="Rotasi"
+              label="Rotation"
               step={0.05}
               value={selected.rotation}
               onChange={(rotation) => s.updateObject(selected.id, { rotation })}
             />
             <NumRow
-              label="Skala"
+              label="Scale"
               step={0.1}
               value={selected.scale}
               onChange={(scale) => s.updateObject(selected.id, { scale })}
             />
             <div className="flex items-center gap-1">
               <span className="w-12 shrink-0 text-[10px] uppercase tracking-wider text-slate-400">
-                Skala =
+                Scale =
               </span>
               <input
                 type="number"
@@ -389,9 +389,9 @@ export function WorldEditor() {
             <div className="flex flex-wrap gap-3 pt-1 text-[11px]">
               {(
                 [
-                  ["walkable", "Bisa dipijak"],
-                  ["solid", "Menghalangi"],
-                  ["visible", "Tampil"],
+                  ["walkable", "Walkable"],
+                  ["solid", "Blocks"],
+                  ["visible", "Visible"],
                 ] as const
               ).map(([key, label]) => (
                 <label key={key} className="flex items-center gap-1.5">
