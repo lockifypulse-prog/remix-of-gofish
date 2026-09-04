@@ -54,15 +54,11 @@ function ProfileAvatar({ size = "h-9 w-9" }: { size?: string }) {
   );
 }
 
-function BalanceRow({ symbol, value, tint }: { symbol: string; value: string; tint: string }) {
+function BalanceRow({ symbol, value, logo }: { symbol: string; value: string; logo: string }) {
   return (
     <div className="flex items-center justify-between px-2.5 py-1 text-[11px] leading-tight">
       <span className="flex items-center gap-1.5 font-medium text-slate-300">
-        <span
-          className={`flex h-3.5 w-3.5 items-center justify-center rounded-full text-[8px] font-bold text-slate-950 ${tint}`}
-        >
-          {symbol.slice(0, 1)}
-        </span>
+        <img src={logo} alt={`${symbol} logo`} className="h-3.5 w-3.5 rounded-full object-cover" />
         {symbol}
       </span>
       <span className="font-semibold tabular-nums text-slate-50">{value}</span>
