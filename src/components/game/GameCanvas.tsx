@@ -139,6 +139,8 @@ export function GameCanvas() {
       </Canvas>
       <HUD />
       <WorldEditor />
+      <LoadingScreen />
     </div>
+
   );
 }
