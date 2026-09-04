@@ -11,6 +11,7 @@ import { Boat } from "./Boat";
 import { FishSchool } from "./Fish";
 import { Angler } from "./Angler";
 import { HUD } from "./HUD";
+import { LoadingScreen } from "./LoadingScreen";
 import { Weather } from "./Weather";
 import { RainImpacts } from "./RainImpacts";
 import { WEATHER, useWeather } from "@/hooks/useWeather";
@@ -138,6 +139,8 @@ export function GameCanvas() {
       </Canvas>
       <HUD />
       <WorldEditor />
+      <LoadingScreen />
     </div>
+
   );
 }
