@@ -20,6 +20,7 @@ export function LoadingScreen() {
         window.clearTimeout(b);
       };
     }
+    return undefined;
   }, [active, progress]);
 
   if (hidden) return null;
