@@ -1,11 +1,11 @@
 {
-  "asset_id": "f94f09b7-b29a-4e2f-b5f4-51910d745996",
-  "content_type": "model/gltf-binary",
-  "created_at": "2026-09-04T06:34:26Z",
-  "original_filename": "furnished_aquarium_apartment-b48e3ba3.glb",
+  "version": 1,
+  "asset_id": "06b3fe61-e1e1-4c96-897c-44792ec4e91c",
   "project_id": "17b19b06-cda7-4643-954c-b83128cf3a0e",
-  "r2_key": "a/v1/17b19b06-cda7-4643-954c-b83128cf3a0e/f94f09b7-b29a-4e2f-b5f4-51910d745996/furnished_aquarium_apartment-b48e3ba3.glb",
+  "url": "/__l5e/assets-v1/06b3fe61-e1e1-4c96-897c-44792ec4e91c/furnished_aquarium_apartment-b48e3ba3.glb",
+  "r2_key": "a/v1/17b19b06-cda7-4643-954c-b83128cf3a0e/06b3fe61-e1e1-4c96-897c-44792ec4e91c/furnished_aquarium_apartment-b48e3ba3.glb",
+  "original_filename": "furnished_aquarium_apartment-b48e3ba3.glb",
   "size": 24890132,
-  "url": "/__l5e/assets-v1/f94f09b7-b29a-4e2f-b5f4-51910d745996/furnished_aquarium_apartment-b48e3ba3.glb",
-  "version": 1
+  "content_type": "model/gltf-binary",
+  "created_at": "2026-09-04T06:56:05Z"
 }

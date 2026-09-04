@@ -1,11 +1,11 @@
 {
-  "asset_id": "09bf95db-92e1-4a07-9cb0-59a842e2135e",
-  "content_type": "model/gltf-binary",
-  "created_at": "2026-09-04T06:35:19Z",
-  "original_filename": "stylized_tree-5352a2ee.glb",
+  "version": 1,
+  "asset_id": "635d228f-5dba-41b7-b0e4-05204d6e61b8",
   "project_id": "17b19b06-cda7-4643-954c-b83128cf3a0e",
-  "r2_key": "a/v1/17b19b06-cda7-4643-954c-b83128cf3a0e/09bf95db-92e1-4a07-9cb0-59a842e2135e/stylized_tree-5352a2ee.glb",
+  "url": "/__l5e/assets-v1/635d228f-5dba-41b7-b0e4-05204d6e61b8/stylized_tree-5352a2ee.glb",
+  "r2_key": "a/v1/17b19b06-cda7-4643-954c-b83128cf3a0e/635d228f-5dba-41b7-b0e4-05204d6e61b8/stylized_tree-5352a2ee.glb",
+  "original_filename": "stylized_tree-5352a2ee.glb",
   "size": 14342812,
-  "url": "/__l5e/assets-v1/09bf95db-92e1-4a07-9cb0-59a842e2135e/stylized_tree-5352a2ee.glb",
-  "version": 1
+  "content_type": "model/gltf-binary",
+  "created_at": "2026-09-04T06:57:06Z"
 }
