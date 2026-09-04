@@ -17,6 +17,8 @@ import { RainImpacts } from "./RainImpacts";
 import { WEATHER, useWeather } from "@/hooks/useWeather";
 import { player } from "@/hooks/usePlayer";
 import { resumeWeatherAudio } from "@/lib/weatherAudio";
+import { WalletButton } from "../wallet/WalletButton";
+import { ProfilePanel } from "../profile/ProfilePanel";
 
 /** Keeps the orbit pivot glued to the character so the camera follows them. */
 function FollowTarget({
@@ -140,7 +142,11 @@ export function GameCanvas() {
       <HUD />
       <WorldEditor />
       <LoadingScreen />
-    </div>
 
+      <div className="pointer-events-none fixed right-4 top-4 z-40">
+        <WalletButton />
+      </div>
+      <ProfilePanel />
+    </div>
   );
 }
