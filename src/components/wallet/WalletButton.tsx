@@ -110,8 +110,7 @@ export function WalletButton() {
 
   return (
     <div className="flex items-center gap-2">
-      <button
-        className={`${pill} flex items-center gap-2`}
+      <ProfileAvatarButton
         disabled={loading}
         onClick={async () => {
           if (!profile) {
@@ -120,10 +119,7 @@ export function WalletButton() {
           }
           setPanelOpen(true);
         }}
-      >
-        <User className="h-4 w-4" aria-hidden />
-        {loading ? "Loading…" : (profile?.display_name || profile?.username) ?? "Set up profile"}
-      </button>
+      />
       <button className={pill} onClick={() => disconnect()} title={address}>
         {address ? shorten(address) : "Disconnect"}
       </button>
