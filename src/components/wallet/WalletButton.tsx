@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccount, useBalance, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { Wallet } from "lucide-react";
+import { formatUnits } from "viem";
 import { robinhoodChain } from "@/lib/chains";
 import { useProfileStore } from "@/hooks/useProfileStore";
 import { useWalletProfile } from "@/hooks/useWalletProfile";
@@ -116,7 +117,7 @@ export function WalletButton() {
   }
 
   const ethValue = ethBalance
-    ? Number.parseFloat(ethBalance.formatted).toFixed(4)
+    ? Number.parseFloat(formatUnits(ethBalance.value, ethBalance.decimals)).toFixed(4)
     : "0.0000";
 
   return (
