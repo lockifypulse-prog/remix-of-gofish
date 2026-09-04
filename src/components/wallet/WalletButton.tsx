@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react";
-import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import { useAccount, useBalance, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { Wallet } from "lucide-react";
+import { formatUnits } from "viem";
 import { robinhoodChain } from "@/lib/chains";
 import { useProfileStore } from "@/hooks/useProfileStore";
 import { useWalletProfile } from "@/hooks/useWalletProfile";
 import { supabase } from "@/integrations/supabase/client";
 
-function shorten(address: string) {
-  return `${address.slice(0, 6)}…${address.slice(-4)}`;
-}
-
 /** Round profile avatar: uploaded photo when available, initials otherwise, with a level badge. */
-function ProfileAvatarButton({
-  onClick,
-  disabled,
-}: {
-  onClick: () => void;
-  disabled: boolean;
-}) {
+function ProfileAvatar({ size = "h-9 w-9" }: { size?: string }) {
   const profile = useProfileStore((s) => s.profile);
   const loading = useProfileStore((s) => s.loading);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -44,12 +35,8 @@ function ProfileAvatarButton({
   const level = profile?.level ?? 1;
 
   return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={onClick}
-      title={profile?.display_name || profile?.username || "Set up profile"}
-      className="pointer-events-auto relative h-11 w-11 shrink-0 rounded-full border border-white/25 bg-slate-900/55 text-sm font-semibold text-slate-50 shadow-lg backdrop-blur-md transition-colors hover:bg-slate-900/75 disabled:opacity-60"
+    <span
+      className={`relative block ${size} shrink-0 rounded-full border border-white/25 bg-slate-800/80 text-xs font-semibold text-slate-50`}
     >
       <span className="block h-full w-full overflow-hidden rounded-full">
         {avatarUrl ? (
@@ -60,22 +47,43 @@ function ProfileAvatarButton({
           </span>
         )}
       </span>
-      <span className="absolute -bottom-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full border border-white/30 bg-emerald-600 px-1 text-[10px] font-bold leading-none text-white shadow">
+      <span className="absolute -bottom-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full border border-white/30 bg-emerald-600 px-0.5 text-[9px] font-bold leading-none text-white shadow">
         {level}
       </span>
-    </button>
+    </span>
+  );
+}
+
+function BalanceRow({ symbol, value, tint }: { symbol: string; value: string; tint: string }) {
+  return (
+    <div className="flex items-center justify-between px-2.5 py-1 text-[11px] leading-tight">
+      <span className="flex items-center gap-1.5 font-medium text-slate-300">
+        <span
+          className={`flex h-3.5 w-3.5 items-center justify-center rounded-full text-[8px] font-bold text-slate-950 ${tint}`}
+        >
+          {symbol.slice(0, 1)}
+        </span>
+        {symbol}
+      </span>
+      <span className="font-semibold tabular-nums text-slate-50">{value}</span>
+    </div>
   );
 }
 
 export function WalletButton() {
   const { address, isConnected, chainId } = useAccount();
   const { connect, connectors, isPending } = useConnect();
-  const { disconnect } = useDisconnect();
   const { switchChain, isPending: switching } = useSwitchChain();
   const { authenticate } = useWalletProfile();
   const profile = useProfileStore((s) => s.profile);
   const loading = useProfileStore((s) => s.loading);
   const setPanelOpen = useProfileStore((s) => s.setPanelOpen);
+
+  const { data: ethBalance } = useBalance({
+    address,
+    chainId: robinhoodChain.id,
+    query: { enabled: isConnected && chainId === robinhoodChain.id },
+  });
 
   const wrongNetwork = isConnected && chainId !== robinhoodChain.id;
   const connector = connectors.find((c) => c.id === "injected") ?? connectors[0];
@@ -108,9 +116,14 @@ export function WalletButton() {
     );
   }
 
+  const ethValue = ethBalance
+    ? Number.parseFloat(formatUnits(ethBalance.value, ethBalance.decimals)).toFixed(4)
+    : "0.0000";
+
   return (
-    <div className="flex items-center gap-2">
-      <ProfileAvatarButton
+    <div className="pointer-events-auto w-44 overflow-hidden rounded-xl border border-white/20 bg-slate-900/60 shadow-lg backdrop-blur-md">
+      <button
+        type="button"
         disabled={loading}
         onClick={async () => {
           if (!profile) {
@@ -119,10 +132,25 @@ export function WalletButton() {
           }
           setPanelOpen(true);
         }}
-      />
-      <button className={pill} onClick={() => disconnect()} title={address}>
-        {address ? shorten(address) : "Disconnect"}
+        className="flex w-full items-center gap-2 border-b border-white/10 px-2.5 py-2 text-left transition-colors hover:bg-white/5 disabled:opacity-60"
+        title="Open profile"
+      >
+        <ProfileAvatar />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-xs font-semibold text-slate-50">
+            {profile?.display_name || profile?.username || "Set up profile"}
+          </span>
+          <span className="block text-[10px] text-slate-400">
+            Level {profile?.level ?? 1}
+          </span>
+        </span>
       </button>
+      <div className="divide-y divide-white/5">
+        <BalanceRow symbol="ETH" value={ethValue} tint="bg-sky-300" />
+        <BalanceRow symbol="USDG" value="0.00" tint="bg-emerald-300" />
+        <BalanceRow symbol="GOLD" value="0" tint="bg-amber-300" />
+        <BalanceRow symbol="COINS" value="0" tint="bg-orange-300" />
+      </div>
     </div>
   );
 }
