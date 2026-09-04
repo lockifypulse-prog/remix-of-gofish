@@ -11,6 +11,7 @@ import { ColladaLoader } from "three-stdlib";
 import { useWorldStore, type WorldObject } from "@/hooks/useWorldStore";
 import { assetUrl } from "@/lib/assetLibrary";
 import { resolveModelUrl } from "@/lib/modelPointers";
+import { withDraco } from "@/lib/dracoLoader";
 import { refreshCollider, registerCollider, unregisterCollider } from "@/lib/worldPhysics";
 
 /** Resolve the runtime URL for an object (uploaded blob or direct path). */
@@ -103,7 +104,9 @@ function WorldModel({ obj }: { obj: WorldObject }) {
 function LoadedModel({ obj, url }: { obj: WorldObject; url: string }) {
   const group = useRef<THREE.Group>(null);
   const Loader = loaderFor(obj.ext);
-  const loaded = useLoader(Loader as never, url) as Loaded;
+  const loaded = useLoader(Loader as never, url, (loader: unknown) => {
+    if (Loader === GLTFLoader) withDraco(loader as GLTFLoader);
+  }) as Loaded;
   const epoch = useWorldStore((s) => s.epoch);
   const select = useWorldStore((s) => s.select);
   const editing = useWorldStore((s) => s.editing);

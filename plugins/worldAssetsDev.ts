@@ -8,7 +8,6 @@ const MODEL_DIR = path.resolve(ROOT, "public/models");
 // Large model binaries are externalized to the asset CDN; only small pointer
 // JSON files live in the repo. They live under src/models (not public/models)
 // because Vite cannot import or glob-import files from the public directory.
-const POINTER_DIR = path.resolve(ROOT, "src/models");
 const LAYOUT_FILE = path.resolve(ROOT, "src/data/worldLayout.json");
 
 const ALLOWED_EXT = new Set([
@@ -140,21 +139,6 @@ export function worldAssetsDev(): Plugin {
             res.end(data);
             return;
           } catch {
-            // Legacy URL (/models/x.glb) whose binary now lives on the asset CDN:
-            // follow the committed pointer so old layouts keep working.
-            try {
-              const pointer = JSON.parse(await readFile(path.join(POINTER_DIR, `${name}.asset.json`), "utf8")) as {
-                url?: string;
-              };
-              if (pointer.url) {
-                res.statusCode = 302;
-                res.setHeader("location", pointer.url);
-                res.end();
-                return;
-              }
-            } catch {
-              // no pointer either
-            }
             return next();
           }
         }
