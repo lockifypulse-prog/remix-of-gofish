@@ -1,4 +1,12 @@
 import { create } from "zustand";
+import {
+  ACTIVE_BAIT_TIER,
+  ACTIVE_ROD_TIER,
+  getFishData,
+  mult,
+  type FishSpecies,
+  type Rarity,
+} from "@/lib/fishRules";
 
 export type Phase = "idle" | "cast" | "waiting" | "bite" | "reel" | "caught";
 
@@ -6,43 +14,66 @@ export interface FishCatch {
   name: string;
   weight: number;
   color: string;
+  rarity?: Rarity | null;
   isMonster?: boolean;
 }
 
-const SPECIES: Array<{ name: string; color: string; min: number; max: number }> = [
-  { name: "Striped Mackerel", color: "#8fd0e8", min: 0.3, max: 1.2 },
-  { name: "Red Snapper", color: "#e8734a", min: 1.0, max: 4.5 },
-  { name: "Clownfish", color: "#f5a623", min: 0.2, max: 0.6 },
-  { name: "Small Tuna", color: "#5b7fa6", min: 2.0, max: 7.0 },
-  { name: "Flying Fish", color: "#a7e0b0", min: 0.4, max: 1.5 },
-];
+function rollWeight(s: FishSpecies) {
+  return Number((s.min_weight_kg + Math.random() * (s.max_weight_kg - s.min_weight_kg)).toFixed(2));
+}
 
-/** Monster encounter chance. 0.5 = testing mode; drop to 0.02 for a rare release build. */
-export const MONSTER_CHANCE = 0.5;
-
-const MONSTER: { name: string; color: string; min: number; max: number } = {
-  name: "Ancient Leviathan",
-  color: "#1e46b4",
-  min: 300,
-  max: 900,
-};
-
-export function rollFish(): FishCatch {
-  if (Math.random() < MONSTER_CHANCE) {
-    return {
-      name: MONSTER.name,
-      color: MONSTER.color,
-      weight: Number((MONSTER.min + Math.random() * (MONSTER.max - MONSTER.min)).toFixed(1)),
-      isMonster: true,
-    };
-  }
-  const s = SPECIES[Math.floor(Math.random() * SPECIES.length)]!;
+function toCatch(s: FishSpecies): FishCatch {
   return {
     name: s.name,
     color: s.color,
-    weight: Number((s.min + Math.random() * (s.max - s.min)).toFixed(2)),
+    weight: rollWeight(s),
+    rarity: s.rarity,
+    ...(s.is_monster ? { isMonster: true } : {}),
   };
 }
+
+/**
+ * Data-driven roll: monster chance from game_config, pool filtered by the
+ * active rod's weight cap, then weighted by rarity × bait × weather.
+ */
+export function rollFish(weatherKind = "cerah"): FishCatch {
+  const data = getFishData();
+  const monster = data.species.find((s) => s.is_monster);
+  const chance = data.config["monster_catch_chance"] ?? 0;
+  if (monster && Math.random() < chance) return toCatch(monster);
+
+  const rod = data.rods.find((r) => r.id === ACTIVE_ROD_TIER);
+  const cap = rod?.max_catch_weight_kg ?? Infinity;
+  const bait = data.baits.find((b) => b.id === ACTIVE_BAIT_TIER);
+  const weather = data.weather[weatherKind];
+
+  const pool = data.species.filter((s) => !s.is_monster && s.min_weight_kg <= cap);
+  if (pool.length === 0) return toCatch(data.species[0] ?? (monster as FishSpecies));
+
+  const weights = pool.map((s) => {
+    const r = s.rarity ?? "common";
+    const base = data.rarityWeights[r] ?? 1;
+    return Math.max(0, base * mult(bait?.rarity_multiplier, r) * mult(weather?.rarity_multiplier, r));
+  });
+  const total = weights.reduce((a, b) => a + b, 0);
+
+  let pick = pool[pool.length - 1]!;
+  if (total > 0) {
+    let roll = Math.random() * total;
+    for (let i = 0; i < pool.length; i++) {
+      roll -= weights[i]!;
+      if (roll <= 0) {
+        pick = pool[i]!;
+        break;
+      }
+    }
+  }
+
+  const chosen = pick;
+  const weight = Math.min(rollWeight(chosen), cap === Infinity ? Number.POSITIVE_INFINITY : Math.max(cap, chosen.min_weight_kg));
+  return { ...toCatch(chosen), weight: Number(weight.toFixed(2)) };
+}
+
 
 interface GameStore {
   phase: Phase;
