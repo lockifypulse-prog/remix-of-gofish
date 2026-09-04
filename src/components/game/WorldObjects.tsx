@@ -14,6 +14,10 @@ import { resolveModelUrl } from "@/lib/modelPointers";
 import { withDraco } from "@/lib/dracoLoader";
 import { refreshCollider, registerCollider, unregisterCollider } from "@/lib/worldPhysics";
 
+// Dedupes fetches: several objects often share one model URL, so without
+// this each placement re-downloads the same file.
+THREE.Cache.enabled = true;
+
 /** Resolve the runtime URL for an object (uploaded blob or direct path). */
 function useObjectUrl(o: WorldObject): string | null {
   const [url, setUrl] = useState<string | null>(o.url ? resolveModelUrl(o.url) : null);

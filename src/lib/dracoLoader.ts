@@ -11,7 +11,7 @@ export function getDracoLoader(): DRACOLoader {
   if (!draco) {
     draco = new DRACOLoader();
     draco.setDecoderPath("/draco/");
-    draco.setDecoderConfig({ type: "js" });
+    draco.setDecoderConfig({ type: "wasm" });
   }
   return draco;
 }
