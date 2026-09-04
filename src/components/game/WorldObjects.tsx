@@ -11,6 +11,7 @@ import { ColladaLoader } from "three-stdlib";
 import { useWorldStore, type WorldObject } from "@/hooks/useWorldStore";
 import { assetUrl } from "@/lib/assetLibrary";
 import { resolveModelUrl } from "@/lib/modelPointers";
+import { withDraco } from "@/lib/dracoLoader";
 import { refreshCollider, registerCollider, unregisterCollider } from "@/lib/worldPhysics";
 
 /** Resolve the runtime URL for an object (uploaded blob or direct path). */
