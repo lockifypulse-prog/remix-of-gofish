@@ -6,6 +6,8 @@ import { robinhoodChain } from "@/lib/chains";
 import { useProfileStore } from "@/hooks/useProfileStore";
 import { useWalletProfile } from "@/hooks/useWalletProfile";
 import { supabase } from "@/integrations/supabase/client";
+import goldLogo from "@/assets/logo-gold.png";
+import coinsLogo from "@/assets/logo-coins.png";
 
 /** Round profile avatar: uploaded photo when available, initials otherwise, with a level badge. */
 function ProfileAvatar({ size = "h-9 w-9" }: { size?: string }) {
@@ -54,15 +56,11 @@ function ProfileAvatar({ size = "h-9 w-9" }: { size?: string }) {
   );
 }
 
-function BalanceRow({ symbol, value, tint }: { symbol: string; value: string; tint: string }) {
+function BalanceRow({ symbol, value, logo }: { symbol: string; value: string; logo: string }) {
   return (
     <div className="flex items-center justify-between px-2.5 py-1 text-[11px] leading-tight">
       <span className="flex items-center gap-1.5 font-medium text-slate-300">
-        <span
-          className={`flex h-3.5 w-3.5 items-center justify-center rounded-full text-[8px] font-bold text-slate-950 ${tint}`}
-        >
-          {symbol.slice(0, 1)}
-        </span>
+        <img src={logo} alt={`${symbol} logo`} className="h-3.5 w-3.5 rounded-full object-cover" />
         {symbol}
       </span>
       <span className="font-semibold tabular-nums text-slate-50">{value}</span>
@@ -146,10 +144,10 @@ export function WalletButton() {
         </span>
       </button>
       <div className="divide-y divide-white/5">
-        <BalanceRow symbol="ETH" value={ethValue} tint="bg-sky-300" />
-        <BalanceRow symbol="USDG" value="0.00" tint="bg-emerald-300" />
-        <BalanceRow symbol="GOLD" value="0" tint="bg-amber-300" />
-        <BalanceRow symbol="COINS" value="0" tint="bg-orange-300" />
+        <BalanceRow symbol="ETH" value={ethValue} logo="/logo-eth.png" />
+        <BalanceRow symbol="USDG" value="0.00" logo="/logo-usdg.png" />
+        <BalanceRow symbol="GOLD" value="0" logo={goldLogo} />
+        <BalanceRow symbol="COINS" value="0" logo={coinsLogo} />
       </div>
     </div>
   );
