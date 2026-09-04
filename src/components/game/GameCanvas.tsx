@@ -83,7 +83,7 @@ export function GameCanvas() {
       <Canvas
         shadows
         dpr={[1, 1.75]}
-        camera={{ position: [9, 8.5, -4], fov: 55 }}
+        camera={{ position: [-1.5, 8.6, 25.5], fov: 55 }}
         gl={{ antialias: true }}
       >
         <Weather />
@@ -109,7 +109,7 @@ export function GameCanvas() {
         <OrbitControls
           ref={controls}
           makeDefault
-          target={[0, 3.5, 10.2]}
+          target={[0, 3.66, 12]}
           enablePan={false}
           enableDamping
           dampingFactor={0.08}
