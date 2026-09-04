@@ -8,7 +8,6 @@ const MODEL_DIR = path.resolve(ROOT, "public/models");
 // Large model binaries are externalized to the asset CDN; only small pointer
 // JSON files live in the repo. They live under src/models (not public/models)
 // because Vite cannot import or glob-import files from the public directory.
-const POINTER_DIR = path.resolve(ROOT, "src/models");
 const LAYOUT_FILE = path.resolve(ROOT, "src/data/worldLayout.json");
 
 const ALLOWED_EXT = new Set([
