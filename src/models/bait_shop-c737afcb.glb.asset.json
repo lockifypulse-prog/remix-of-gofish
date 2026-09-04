@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "1b117080-8bad-45cc-a5c2-070fdeed262c",
-  "project_id": "901fef7f-b16b-4ae3-bb76-9edf8d80a422",
-  "url": "/__l5e/assets-v1/1b117080-8bad-45cc-a5c2-070fdeed262c/bait_shop-c737afcb.glb",
-  "r2_key": "a/v1/901fef7f-b16b-4ae3-bb76-9edf8d80a422/1b117080-8bad-45cc-a5c2-070fdeed262c/bait_shop-c737afcb.glb",
-  "original_filename": "bait_shop-c737afcb.glb",
-  "size": 21422412,
   "content_type": "model/gltf-binary",
-  "created_at": "2026-09-04T06:34:18Z"
+  "created_at": "2026-09-04T06:34:18Z",
+  "original_filename": "bait_shop-c737afcb.glb",
+  "project_id": "17b19b06-cda7-4643-954c-b83128cf3a0e",
+  "r2_key": "a/v1/17b19b06-cda7-4643-954c-b83128cf3a0e/1b117080-8bad-45cc-a5c2-070fdeed262c/bait_shop-c737afcb.glb",
+  "size": 21422412,
+  "url": "/__l5e/assets-v1/1b117080-8bad-45cc-a5c2-070fdeed262c/bait_shop-c737afcb.glb",
+  "version": 1
 }
