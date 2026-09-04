@@ -39,7 +39,7 @@ export function LoadingScreen() {
       <div className="relative flex-1 overflow-hidden">
         <img
           src={banner}
-          alt="Pemancing di dermaga pulau dengan ikan blok melompat dari laut"
+          alt="An angler on a small-island pier with blocky fish leaping from the sea"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
@@ -49,9 +49,9 @@ export function LoadingScreen() {
       <div className="relative z-10 -mt-20 px-6 pb-10">
         <div className="mx-auto w-full max-w-3xl">
           <div className="text-center">
-            <h2 className="text-2xl font-semibold tracking-tight text-slate-50 drop-shadow">Memuat pulau…</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-50 drop-shadow">Loading the island…</h2>
             <p className="mt-1 text-sm text-slate-200/90 drop-shadow">
-              Menyiapkan laut, dermaga, dan penghuni bawah air
+              Preparing the sea, the pier, and everyone living under the waves
             </p>
           </div>
 
