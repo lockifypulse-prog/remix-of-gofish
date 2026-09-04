@@ -31,7 +31,7 @@ function shortId(address: string) {
 }
 
 export const ensureProfile = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => proofSchema.parse(input))
+  .validator((input: unknown) => proofSchema.parse(input))
   .handler(async ({ data }) => {
     const wallet = await verifyProof(data);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -75,7 +75,7 @@ const updateSchema = z.object({
 });
 
 export const updateProfile = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => updateSchema.parse(input))
+  .validator((input: unknown) => updateSchema.parse(input))
   .handler(async ({ data }) => {
     const wallet = await verifyProof(data.proof);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -116,7 +116,7 @@ const uploadSchema = z.object({
 });
 
 export const uploadAvatar = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => uploadSchema.parse(input))
+  .validator((input: unknown) => uploadSchema.parse(input))
   .handler(async ({ data }) => {
     const wallet = await verifyProof(data.proof);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
