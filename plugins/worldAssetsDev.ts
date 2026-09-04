@@ -134,8 +134,10 @@ export function worldAssetsDev(): Plugin {
           const file = path.join(MODEL_DIR, name);
           try {
             const data = await readFile(file);
-            res.setHeader("content-type", "application/octet-stream");
-            res.setHeader("cache-control", "no-cache");
+            res.setHeader("content-type", "model/gltf-binary");
+            // Filenames embed a content hash, so they are immutable: let the
+            // browser cache them forever and refreshes skip re-downloading.
+            res.setHeader("cache-control", "public, max-age=31536000, immutable");
             res.end(data);
             return;
           } catch {
