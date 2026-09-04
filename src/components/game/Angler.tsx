@@ -142,7 +142,7 @@ export function Angler() {
     if (store.rodStowed) {
       // joran sedang tersampir di punggung: ambil dulu sebelum bisa melempar
       store.setRodStowed(false);
-      setMessage("Joran dipegang. ENTER / klik kiri untuk melempar.");
+      setMessage("Rod ready. Press ENTER / left click to cast.");
       return;
     }
     if (st.phase === "idle") {
@@ -157,7 +157,7 @@ export function Angler() {
       // The bobber has to land in open sea, not on the island itself —
       // block casting toward land (e.g. facing inland toward the hills).
       if (!isInWater(toX, toZ)) {
-        setMessage("Arahkan pancing ke laut, bukan ke daratan pulau!");
+        setMessage("Aim your cast toward the sea, not the island!");
         return;
       }
       player.yaw = castYaw;
@@ -168,18 +168,18 @@ export function Angler() {
       st.whizzed = false;
       st.fish = null;
       setPhase("cast");
-      setMessage("Melempar...");
+      setMessage("Casting...");
     } else if (st.phase === "bite") {
       st.phase = "reel";
       st.t = 0;
       setPhase("reel");
-      setMessage("Tarik! Menggulung...");
+      setMessage("Reeling in!");
       startReelSound();
     } else if (st.phase === "waiting") {
       st.phase = "idle";
       st.t = 0;
       setPhase("idle");
-      setMessage("Kail ditarik kosong. ENTER / klik kiri untuk melempar lagi.");
+      setMessage("Line pulled in empty. ENTER / left click to cast again.");
     }
   };
 
@@ -217,8 +217,8 @@ export function Angler() {
         store.setRodStowed(next);
         setMessage(
           next
-            ? "Joran dilepas dan disampirkan di punggung. R untuk memakai lagi."
-            : "Joran dipegang. ENTER / klik kiri untuk melempar.",
+            ? "Rod stowed on your back. Press R to draw it again."
+            : "Rod ready. Press ENTER / left click to cast.",
         );
       }
     };
