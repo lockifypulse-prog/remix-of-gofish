@@ -11,9 +11,9 @@ import { canBakeToProject, uploadModelToProject } from "@/lib/projectAssets";
 
 const MODES: EditorMode[] = ["translate", "rotate", "scale"];
 const MODE_LABEL: Record<EditorMode, string> = {
-  translate: "Geser",
-  rotate: "Putar",
-  scale: "Skala",
+  translate: "Move",
+  rotate: "Rotate",
+  scale: "Scale",
 };
 
 function NumRow({
@@ -85,17 +85,17 @@ export function WorldEditor() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files?.length) return;
-    setBusy("Mengunggah…");
+    setBusy("Uploading…");
     let baked = 0;
     let local = 0;
     const errors: string[] = [];
     for (const f of Array.from(files)) {
       const ext = extOf(f.name);
       if (!SUPPORTED_EXT.includes(ext as (typeof SUPPORTED_EXT)[number])) {
-        errors.push(`${f.name}: format tidak didukung`);
+        errors.push(`${f.name}: unsupported format`);
         continue;
       }
-      // 1) simpan ke kode proyek (public/models/) agar ikut clone/remix
+      // 1) save into the project source (public/models/) so it follows clone/remix
       const res = await uploadModelToProject(f);
       if (res.ok) {
         // If a large binary was rejected by the repository earlier, preserve
@@ -108,16 +108,16 @@ export function WorldEditor() {
         baked += 1;
         continue;
       }
-      // 2) fallback: simpan blob di perangkat ini saja — dan beri tahu dengan jelas
+      // 2) fallback: store blob on this device only — and make that explicit
       errors.push(`${f.name}: ${res.error}`);
       await putAsset(f);
       local += 1;
     }
     s.setAssets(await listAssets());
     const parts: string[] = [];
-    if (baked) parts.push(`${baked} model tersimpan permanen & ditempatkan.`);
-    if (local) parts.push(`${local} model HANYA di perangkat ini (tidak ikut clone/remix).`);
-    if (errors.length) parts.push(`Gagal bake: ${errors.join("; ")}`);
+    if (baked) parts.push(`${baked} model baked permanently & placed.`);
+    if (local) parts.push(`${local} model ONLY on this device (won't carry over on clone/remix).`);
+    if (errors.length) parts.push(`Bake failed: ${errors.join("; ")}`);
     setBusy(parts.join(" ") || null);
     if (!errors.length) setTimeout(() => setBusy(null), 4000);
   };
