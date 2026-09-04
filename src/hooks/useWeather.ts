@@ -39,7 +39,7 @@ export interface WeatherPreset {
 
 export const WEATHER: Record<WeatherKind, WeatherPreset> = {
   cerah: {
-    label: "Cerah",
+    label: "Clear",
     // Deeper rayleigh + low turbidity keeps the dome a saturated sky blue
     // instead of the washed-out white ACES tone mapping tends to produce.
     turbidity: 1.6,
@@ -67,7 +67,7 @@ export const WEATHER: Record<WeatherKind, WeatherPreset> = {
     waterHorizon: "#b9dff3",
   },
   berawan: {
-    label: "Berawan",
+    label: "Cloudy",
     turbidity: 9,
     rayleigh: 2.1,
     mieCoefficient: 0.009,
@@ -93,7 +93,7 @@ export const WEATHER: Record<WeatherKind, WeatherPreset> = {
     waterHorizon: "#a9cade",
   },
   berkabut: {
-    label: "Berkabut",
+    label: "Foggy",
     turbidity: 14,
     rayleigh: 2.7,
     mieCoefficient: 0.015,
@@ -119,7 +119,7 @@ export const WEATHER: Record<WeatherKind, WeatherPreset> = {
     waterHorizon: "#c9e0f0",
   },
   hujan: {
-    label: "Hujan",
+    label: "Rain",
     turbidity: 16,
     rayleigh: 2.9,
     mieCoefficient: 0.017,
@@ -145,7 +145,7 @@ export const WEATHER: Record<WeatherKind, WeatherPreset> = {
     waterHorizon: "#8aaec6",
   },
   badai: {
-    label: "Badai",
+    label: "Storm",
     turbidity: 20,
     rayleigh: 3.5,
     mieCoefficient: 0.024,
