@@ -45,55 +45,6 @@ export function HUD() {
               <p className="text-xs text-slate-200/80">{last.weight} kg</p>
             </div>
           )}
-
-          <div className="pointer-events-auto rounded-2xl border border-white/25 bg-slate-900/45 p-2 shadow-lg backdrop-blur-md">
-            <div className="flex gap-1">
-              <button
-                onClick={toggleSound}
-                className="rounded-xl bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-slate-100 transition-colors hover:bg-white/20"
-                aria-pressed={!muted}
-                title={muted ? "Nyalakan suara cuaca" : "Matikan suara cuaca"}
-              >
-                {muted ? "Suara ✕" : "Suara ♪"}
-              </button>
-              <button
-                onClick={() => {
-                  if (phase !== "idle") return;
-                  const next = !rodStowed;
-                  setRodStowed(next);
-                  setMessage(
-                    next
-                      ? "Joran dilepas dan disampirkan di punggung. R untuk memakai lagi."
-                      : "Joran dipegang. ENTER / klik kiri untuk melempar.",
-                  );
-                }}
-                disabled={phase !== "idle"}
-                className="rounded-xl bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-slate-100 transition-colors hover:bg-white/20 disabled:opacity-40"
-                aria-pressed={rodStowed}
-                title="Lepas / pakai joran (R)"
-              >
-                {rodStowed ? "Pakai Joran" : "Lepas Joran"}
-              </button>
-              {order.map((k) => {
-                const active = k === kind;
-                return (
-                  <button
-                    key={k}
-                    onClick={() => setKind(k)}
-                    className={[
-                      "rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-colors",
-                      active
-                        ? "bg-sky-500 text-white shadow-md"
-                        : "bg-white/10 text-slate-100 hover:bg-white/20",
-                    ].join(" ")}
-                    aria-pressed={active}
-                  >
-                    {WEATHER[k].label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </div>
 

@@ -169,14 +169,7 @@ export function WorldEditor() {
   };
 
   if (!s.editing) {
-    return (
-      <button
-        onClick={() => s.setEditing(true)}
-        className="pointer-events-auto fixed bottom-4 left-4 z-30 rounded-xl border border-white/25 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-100 shadow-lg backdrop-blur-md transition-colors hover:bg-slate-900/85"
-      >
-        🛠️ Editor Dunia <span className="ml-1 text-slate-400">(P)</span>
-      </button>
-    );
+    return null;
   }
 
   return (
