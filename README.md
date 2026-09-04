@@ -1,32 +1,14 @@
-# 0cean Island Angler
+# Pulau Pancing — Game Memancing 3D
 
-saya ingin kamu membuat game dasar fishing 
+Game memancing santai dengan grafis 3D. Lempar kail dari dermaga pulau kecil, tunggu sambaran, dan tarik ikan yang meronta.
 
-- bagaimana karakter melempar rod 
-- bagaimana reaksi karakter dan rod ketika mendapatkan ikan 
-- animasi ikan 
+Dibangun dengan TanStack Start v1, React, Three.js / React Three Fiber, Tailwind CSS v4, dan shadcn/ui.
 
-buat lautan luas di tengahnya ada pulau kecil dan karakter roblox 
+## Menjalankan lokal
 
-pahami
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/2d3800b8-c68a-4d00-b601-530bc0c3278f).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+bun install
+bun dev
 ```
+
+Semua aset 3D tersimpan di dalam repo (`public/models/`, `public/draco/`) agar tetap berfungsi saat di-clone, di-remix, atau dijalankan offline.
