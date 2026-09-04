@@ -163,7 +163,7 @@ export function WorldEditor() {
       const parsed = JSON.parse(await file.text()) as WorldLayout;
       if (Array.isArray(parsed.objects)) s.importLayout(parsed.objects);
     } catch {
-      setBusy("File layout tidak valid");
+      setBusy("Invalid layout file");
       setTimeout(() => setBusy(null), 2000);
     }
   };
