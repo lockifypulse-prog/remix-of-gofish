@@ -5,17 +5,17 @@ export const Route = createFileRoute("/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Pulau Pancing — Game Memancing 3D" },
+      { title: "Fishing Island — 3D Fishing Game" },
       {
         name: "description",
         content:
-          "Game memancing 3D: lempar joran dari dermaga pulau kecil di tengah laut luas, tunggu sambaran, lalu tarik ikan yang meronta.",
+          "A 3D fishing game: cast from a tiny island pier into the open ocean, wait for a bite, then reel in the catch.",
       },
-      { property: "og:title", content: "Pulau Pancing — Game Memancing 3D" },
+      { property: "og:title", content: "Fishing Island — 3D Fishing Game" },
       {
         property: "og:description",
         content:
-          "Lempar kail, rasakan sambaran ikan, dan angkat tangkapanmu di laut luas bergaya blok.",
+          "Cast your line, feel the bite, and haul in blocky fish across a changing sea.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

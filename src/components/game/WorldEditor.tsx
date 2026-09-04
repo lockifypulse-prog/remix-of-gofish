@@ -11,9 +11,9 @@ import { canBakeToProject, uploadModelToProject } from "@/lib/projectAssets";
 
 const MODES: EditorMode[] = ["translate", "rotate", "scale"];
 const MODE_LABEL: Record<EditorMode, string> = {
-  translate: "Geser",
-  rotate: "Putar",
-  scale: "Skala",
+  translate: "Move",
+  rotate: "Rotate",
+  scale: "Scale",
 };
 
 function NumRow({
@@ -85,17 +85,17 @@ export function WorldEditor() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files?.length) return;
-    setBusy("Mengunggah…");
+    setBusy("Uploading…");
     let baked = 0;
     let local = 0;
     const errors: string[] = [];
     for (const f of Array.from(files)) {
       const ext = extOf(f.name);
       if (!SUPPORTED_EXT.includes(ext as (typeof SUPPORTED_EXT)[number])) {
-        errors.push(`${f.name}: format tidak didukung`);
+        errors.push(`${f.name}: unsupported format`);
         continue;
       }
-      // 1) simpan ke kode proyek (public/models/) agar ikut clone/remix
+      // 1) save into the project source (public/models/) so it follows clone/remix
       const res = await uploadModelToProject(f);
       if (res.ok) {
         // If a large binary was rejected by the repository earlier, preserve
@@ -108,29 +108,29 @@ export function WorldEditor() {
         baked += 1;
         continue;
       }
-      // 2) fallback: simpan blob di perangkat ini saja — dan beri tahu dengan jelas
+      // 2) fallback: store blob on this device only — and make that explicit
       errors.push(`${f.name}: ${res.error}`);
       await putAsset(f);
       local += 1;
     }
     s.setAssets(await listAssets());
     const parts: string[] = [];
-    if (baked) parts.push(`${baked} model tersimpan permanen & ditempatkan.`);
-    if (local) parts.push(`${local} model HANYA di perangkat ini (tidak ikut clone/remix).`);
-    if (errors.length) parts.push(`Gagal bake: ${errors.join("; ")}`);
+    if (baked) parts.push(`${baked} model baked permanently & placed.`);
+    if (local) parts.push(`${local} model ONLY on this device (won't carry over on clone/remix).`);
+    if (errors.length) parts.push(`Bake failed: ${errors.join("; ")}`);
     setBusy(parts.join(" ") || null);
     if (!errors.length) setTimeout(() => setBusy(null), 4000);
   };
 
   const onSave = async () => {
-    setBusy("Menyimpan ke proyek…");
+    setBusy("Saving to project…");
     const ok = await s.save();
     setBusy(
       ok
-        ? "Layout tersimpan ke src/data/worldLayout.json ✔"
+        ? "Layout saved to src/data/worldLayout.json ✔"
         : canBakeToProject
-          ? `Gagal menulis ke kode proyek: ${useWorldStore.getState().bakeError ?? "?"}`
-          : "Tersimpan di perangkat ini (mode produksi).",
+          ? `Could not write to project code: ${useWorldStore.getState().bakeError ?? "?"}`
+          : "Saved on this device only (production mode).",
     );
     setTimeout(() => setBusy(null), 4000);
   };
@@ -149,9 +149,9 @@ export function WorldEditor() {
     const payload: WorldLayout = { version: 1, objects: s.objects };
     try {
       await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-      setBusy("JSON disalin — tempel ke src/data/worldLayout.json agar ikut saat clone/remix");
+      setBusy("JSON copied — paste it into src/data/worldLayout.json to keep it on clone/remix");
     } catch {
-      setBusy("Gagal menyalin, gunakan Export JSON");
+      setBusy("Could not copy, use Export JSON");
     }
     setTimeout(() => setBusy(null), 4000);
   };
@@ -163,7 +163,7 @@ export function WorldEditor() {
       const parsed = JSON.parse(await file.text()) as WorldLayout;
       if (Array.isArray(parsed.objects)) s.importLayout(parsed.objects);
     } catch {
-      setBusy("File layout tidak valid");
+      setBusy("Invalid layout file");
       setTimeout(() => setBusy(null), 2000);
     }
   };
@@ -175,7 +175,7 @@ export function WorldEditor() {
   return (
     <div className="pointer-events-auto fixed left-4 top-4 z-30 flex max-h-[92vh] w-[330px] flex-col overflow-hidden rounded-2xl border border-white/20 bg-slate-950/85 text-slate-100 shadow-2xl backdrop-blur-md">
       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-        <h2 className="text-sm font-semibold">Editor Dunia</h2>
+        <h2 className="text-sm font-semibold">World Editor</h2>
         <div className="flex items-center gap-1">
           <button
             onClick={onSave}
@@ -186,17 +186,17 @@ export function WorldEditor() {
                   ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400"
                   : "bg-white/10"
             }`}
-            title="Autosave aktif — tombol ini memaksa simpan sekarang"
+            title="Autosave is on — this button forces a save now"
           >
             {s.bakeState === "saving"
-              ? "Menyimpan…"
+              ? "Saving…"
               : s.bakeState === "pending"
-                ? "Simpan •"
+                ? "Save •"
                 : s.bakeState === "error"
-                  ? "Coba lagi"
+                  ? "Retry"
                   : s.dirty
-                    ? "Simpan"
-                    : "Tersimpan ✓"}
+                    ? "Save"
+                    : "Saved ✓"}
           </button>
           <button
             onClick={() => s.setEditing(false)}
@@ -211,7 +211,7 @@ export function WorldEditor() {
         {/* ---- assets ------------------------------------------------ */}
         <section className="space-y-2">
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Aset Model
+            Model Assets
           </h3>
           <input
             ref={fileRef}
@@ -225,14 +225,14 @@ export function WorldEditor() {
             onClick={() => fileRef.current?.click()}
             className="w-full rounded-lg border border-dashed border-white/25 px-3 py-2 text-[11px] text-slate-300 hover:border-sky-400/70 hover:text-slate-50"
           >
-            + Impor file ({SUPPORTED_EXT.join(", ")})
+            + Import file ({SUPPORTED_EXT.join(", ")})
           </button>
 
           <div className="flex gap-1">
             <input
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
-              placeholder="/models/pulau.glb atau URL"
+              placeholder="/models/island.glb or URL"
               className="min-w-0 flex-1 rounded-lg border border-white/15 bg-slate-900/70 px-2 py-1.5 text-[11px] outline-none focus:border-sky-400/70"
             />
             <button
@@ -248,7 +248,7 @@ export function WorldEditor() {
               }}
               className="rounded-lg bg-sky-500 px-2.5 py-1.5 text-[11px] font-semibold text-slate-950 hover:bg-sky-400"
             >
-              Tambah
+              Add
             </button>
           </div>
 
@@ -267,7 +267,7 @@ export function WorldEditor() {
                   }
                   className="rounded-md bg-sky-500/90 px-2 py-0.5 text-[10px] font-semibold text-slate-950 hover:bg-sky-400"
                 >
-                  Tempatkan
+                  Place
                 </button>
                 <button
                   onClick={async () => {
@@ -281,7 +281,7 @@ export function WorldEditor() {
               </li>
             ))}
             {s.assets.length === 0 && (
-              <li className="text-[11px] text-slate-500">Belum ada aset diimpor.</li>
+              <li className="text-[11px] text-slate-500">No imported assets yet.</li>
             )}
           </ul>
         </section>
@@ -289,7 +289,7 @@ export function WorldEditor() {
         {/* ---- placed objects ---------------------------------------- */}
         <section className="space-y-2">
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Objek di Dunia ({s.objects.length})
+            Objects in World ({s.objects.length})
           </h3>
           <ul className="space-y-1">
             {s.objects.map((o) => (
@@ -309,7 +309,7 @@ export function WorldEditor() {
             ))}
             {s.objects.length === 0 && (
               <li className="text-[11px] text-slate-500">
-                Dunia kosong — impor model lalu klik “Tempatkan”.
+                World is empty — import a model then click “Place”.
               </li>
             )}
           </ul>
@@ -328,13 +328,13 @@ export function WorldEditor() {
                 onClick={() => s.duplicateObject(selected.id)}
                 className="rounded-md bg-white/10 px-2 py-1 text-[10px] hover:bg-white/20"
               >
-                Duplikat
+                Duplicate
               </button>
               <button
                 onClick={() => s.removeObject(selected.id)}
                 className="rounded-md bg-rose-500/80 px-2 py-1 text-[10px] font-semibold hover:bg-rose-500"
               >
-                Hapus
+                Delete
               </button>
             </div>
 
@@ -353,26 +353,26 @@ export function WorldEditor() {
             </div>
 
             <NumRow
-              label="Posisi"
+              label="Position"
               step={0.5}
               value={selected.position}
               onChange={(position) => s.updateObject(selected.id, { position })}
             />
             <NumRow
-              label="Rotasi"
+              label="Rotation"
               step={0.05}
               value={selected.rotation}
               onChange={(rotation) => s.updateObject(selected.id, { rotation })}
             />
             <NumRow
-              label="Skala"
+              label="Scale"
               step={0.1}
               value={selected.scale}
               onChange={(scale) => s.updateObject(selected.id, { scale })}
             />
             <div className="flex items-center gap-1">
               <span className="w-12 shrink-0 text-[10px] uppercase tracking-wider text-slate-400">
-                Skala =
+                Scale =
               </span>
               <input
                 type="number"
@@ -389,9 +389,9 @@ export function WorldEditor() {
             <div className="flex flex-wrap gap-3 pt-1 text-[11px]">
               {(
                 [
-                  ["walkable", "Bisa dipijak"],
-                  ["solid", "Menghalangi"],
-                  ["visible", "Tampil"],
+                  ["walkable", "Walkable"],
+                  ["solid", "Blocks"],
+                  ["visible", "Visible"],
                 ] as const
               ).map(([key, label]) => (
                 <label key={key} className="flex items-center gap-1.5">
@@ -420,7 +420,7 @@ export function WorldEditor() {
             onClick={onCopyJson}
             className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] hover:bg-white/20"
           >
-            Salin JSON
+            Copy JSON
           </button>
           <input
             ref={importRef}
@@ -440,29 +440,29 @@ export function WorldEditor() {
             onClick={s.reload}
             className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] hover:bg-white/20"
           >
-            Muat Tersimpan
+            Load Saved
           </button>
           <button
             onClick={s.clearAll}
             className="rounded-lg bg-rose-500/70 px-2.5 py-1 text-[11px] font-semibold hover:bg-rose-500"
           >
-            Kosongkan
+            Clear All
           </button>
         </section>
 
         {localOnly > 0 && (
           <p className="rounded-lg border border-amber-400/40 bg-amber-500/10 px-2 py-1.5 text-[10px] leading-relaxed text-amber-200">
-            {localOnly} objek memakai aset lokal (IndexedDB) dan TIDAK akan ikut clone/remix.
-            Impor ulang file-nya lewat “Impor file” agar tersimpan ke public/models/.
+            {localOnly} object(s) use local-only assets (IndexedDB) and will NOT carry over on clone/remix.
+            Re-import the files via “Import file” so they are stored in public/models/.
           </p>
         )}
         <p className={`text-[10px] leading-relaxed ${s.bakeState === "error" ? "text-rose-300" : "text-slate-400"}`}>
           {busy ??
             (s.bakeState === "error"
-              ? `Autosave ke proyek GAGAL: ${s.bakeError}. Perubahan hanya ada di browser ini.`
+              ? `Project autosave FAILED: ${s.bakeError}. Changes only exist in this browser.`
               : canBakeToProject
-                ? "Autosave aktif: setiap perubahan otomatis ditulis ke src/data/worldLayout.json dan model impor ke public/models/ — keduanya ikut saat clone/remix."
-                : "Mode produksi: perubahan hanya tersimpan di perangkat ini. Gunakan editor di preview agar dibakar ke kode proyek.")}
+                ? "Autosave on: every change is written to src/data/worldLayout.json and imported models are copied to public/models/ — both carry over on clone/remix."
+                : "Production mode: changes only persist on this device. Use the editor in preview so edits are baked into the project.")}
         </p>
       </div>
     </div>

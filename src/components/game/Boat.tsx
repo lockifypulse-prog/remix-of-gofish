@@ -327,10 +327,10 @@ export function Boat() {
         const c = Math.cos(boat.yaw);
         player.pos.x = boat.pos.x + 3.2 * c;
         player.pos.z = boat.pos.z - 3.2 * s;
-        setMessage("Turun dari perahu. Tekan E lagi saat dekat perahu untuk naik.");
+        setMessage("Left the boat. Press E near the boat to board again.");
       } else if (boat.near) {
         boat.riding = true;
-        setMessage("Naik perahu! W/S = gas & mundur, A/D = kemudi, E = turun.");
+        setMessage("Aboard! W/S = throttle & reverse, A/D = steer, E = disembark.");
       }
     };
     const onKeyUp = (e: KeyboardEvent) => {
@@ -439,7 +439,7 @@ export function Boat() {
         {prompt && (
           <Html position={[0, 1.9, 0]} center distanceFactor={12} zIndexRange={[10, 0]}>
             <div className="pointer-events-none whitespace-nowrap rounded-full border border-white/30 bg-slate-900/70 px-3 py-1 text-[13px] font-semibold text-slate-50 shadow-lg backdrop-blur-sm">
-              Tekan E untuk naik perahu
+              Press E to board the boat
             </div>
           </Html>
         )}

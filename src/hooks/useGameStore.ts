@@ -10,18 +10,18 @@ export interface FishCatch {
 }
 
 const SPECIES: Array<{ name: string; color: string; min: number; max: number }> = [
-  { name: "Ikan Kembung", color: "#8fd0e8", min: 0.3, max: 1.2 },
-  { name: "Kakap Merah", color: "#e8734a", min: 1.0, max: 4.5 },
-  { name: "Ikan Badut", color: "#f5a623", min: 0.2, max: 0.6 },
-  { name: "Tuna Kecil", color: "#5b7fa6", min: 2.0, max: 7.0 },
-  { name: "Ikan Layang", color: "#a7e0b0", min: 0.4, max: 1.5 },
+  { name: "Striped Mackerel", color: "#8fd0e8", min: 0.3, max: 1.2 },
+  { name: "Red Snapper", color: "#e8734a", min: 1.0, max: 4.5 },
+  { name: "Clownfish", color: "#f5a623", min: 0.2, max: 0.6 },
+  { name: "Small Tuna", color: "#5b7fa6", min: 2.0, max: 7.0 },
+  { name: "Flying Fish", color: "#a7e0b0", min: 0.4, max: 1.5 },
 ];
 
-/** Peluang mendapat monster. 0.5 = mode uji coba; turunkan ke 0.02 untuk versi langka. */
+/** Monster encounter chance. 0.5 = testing mode; drop to 0.02 for a rare release build. */
 export const MONSTER_CHANCE = 0.5;
 
 const MONSTER: { name: string; color: string; min: number; max: number } = {
-  name: "Monster Purba",
+  name: "Ancient Leviathan",
   color: "#1e46b4",
   min: 300,
   max: 900,
@@ -50,7 +50,7 @@ interface GameStore {
   score: number;
   totalWeight: number;
   last: FishCatch | null;
-  /** true = joran dilepas dan tersampir di punggung */
+  /** true = rod stowed on back */
   rodStowed: boolean;
   setPhase: (p: Phase) => void;
   setMessage: (m: string) => void;
@@ -61,7 +61,7 @@ interface GameStore {
 
 export const useGameStore = create<GameStore>((set) => ({
   phase: "idle",
-  message: "Tekan SPASI untuk melempar kail",
+  message: "Press SPACE to cast your line",
   score: 0,
   totalWeight: 0,
   last: null,

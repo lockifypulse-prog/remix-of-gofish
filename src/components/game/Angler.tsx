@@ -142,7 +142,7 @@ export function Angler() {
     if (store.rodStowed) {
       // joran sedang tersampir di punggung: ambil dulu sebelum bisa melempar
       store.setRodStowed(false);
-      setMessage("Joran dipegang. ENTER / klik kiri untuk melempar.");
+      setMessage("Rod ready. Press ENTER / left click to cast.");
       return;
     }
     if (st.phase === "idle") {
@@ -157,7 +157,7 @@ export function Angler() {
       // The bobber has to land in open sea, not on the island itself —
       // block casting toward land (e.g. facing inland toward the hills).
       if (!isInWater(toX, toZ)) {
-        setMessage("Arahkan pancing ke laut, bukan ke daratan pulau!");
+        setMessage("Aim your cast toward the sea, not the island!");
         return;
       }
       player.yaw = castYaw;
@@ -168,18 +168,18 @@ export function Angler() {
       st.whizzed = false;
       st.fish = null;
       setPhase("cast");
-      setMessage("Melempar...");
+      setMessage("Casting...");
     } else if (st.phase === "bite") {
       st.phase = "reel";
       st.t = 0;
       setPhase("reel");
-      setMessage("Tarik! Menggulung...");
+      setMessage("Reeling in!");
       startReelSound();
     } else if (st.phase === "waiting") {
       st.phase = "idle";
       st.t = 0;
       setPhase("idle");
-      setMessage("Kail ditarik kosong. ENTER / klik kiri untuk melempar lagi.");
+      setMessage("Line pulled in empty. ENTER / left click to cast again.");
     }
   };
 
@@ -217,8 +217,8 @@ export function Angler() {
         store.setRodStowed(next);
         setMessage(
           next
-            ? "Joran dilepas dan disampirkan di punggung. R untuk memakai lagi."
-            : "Joran dipegang. ENTER / klik kiri untuk melempar.",
+            ? "Rod stowed on your back. Press R to draw it again."
+            : "Rod ready. Press ENTER / left click to cast.",
         );
       }
     };
@@ -473,7 +473,7 @@ export function Angler() {
         st.t = 0;
         st.fish = rollFish();
         setPhase("bite");
-        setMessage("SAMBARAN! Tekan SPASI / ENTER sekarang!");
+        setMessage("FISH ON! Press SPACE / ENTER now!");
       }
     } else if (st.phase === "bite") {
       // bobber yanked under, rod tip loaded
@@ -493,7 +493,7 @@ export function Angler() {
         st.t = 0;
         st.fish = null;
         setPhase("idle");
-        setMessage("Ikan lolos! Coba lempar lagi.");
+        setMessage("It got away! Cast again.");
       }
     } else if (st.phase === "reel") {
       const isMonsterFight = !!st.fish?.isMonster;
@@ -583,7 +583,7 @@ export function Angler() {
         playBobberSplash(1.6);
         if (st.fish) {
           landFish(st.fish);
-          setMessage(`Dapat ${st.fish.name} — ${st.fish.weight} kg!`);
+          setMessage(`Caught ${st.fish.name} — ${st.fish.weight} kg!`);
         }
       }
 
@@ -663,7 +663,7 @@ export function Angler() {
           st.phase = "idle";
           st.t = 0;
           setPhase("idle");
-          setMessage("Monster Purba tertangkap! ENTER / klik kiri untuk melempar lagi.");
+          setMessage("Ancient Leviathan caught! Press ENTER / left click to cast again.");
         }
       } else {
         // ---------- normal fish caught (unchanged) ----------
@@ -703,7 +703,7 @@ export function Angler() {
           st.phase = "idle";
           st.t = 0;
           setPhase("idle");
-          setMessage("ENTER / klik kiri untuk melempar kail lagi");
+          setMessage("Press ENTER / left click to cast again");
         }
       }
     } else {
