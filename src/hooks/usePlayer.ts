@@ -8,7 +8,7 @@ const GROUND_GRACE_SECONDS = 0.15;
 
 /** Shared, mutable player transform so the camera rig can follow the angler. */
 export const player = {
-  pos: new THREE.Vector3(0, 0.66, 10.2),
+  pos: new THREE.Vector3(0, 0.66, 12),
   yaw: 0,
   moving: false,
   /** true while the character is out in the water (swimming, not walking) */
