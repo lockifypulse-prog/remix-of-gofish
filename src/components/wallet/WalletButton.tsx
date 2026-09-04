@@ -120,9 +120,9 @@ export function WalletButton() {
     );
   }
 
-  const ethValue = ethBalance
-    ? Number.parseFloat(formatUnits(ethBalance.value, ethBalance.decimals)).toFixed(4)
-    : "0.0000";
+  const ethValue = displayBalance(
+    ethBalance ? Number.parseFloat(formatUnits(ethBalance.value, ethBalance.decimals)).toFixed(4) : "0"
+  );
 
   return (
     <div className="pointer-events-auto w-44 overflow-hidden rounded-xl border border-white/20 bg-slate-900/60 shadow-lg backdrop-blur-md">
