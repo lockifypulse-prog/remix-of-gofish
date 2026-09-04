@@ -175,7 +175,7 @@ export function WorldEditor() {
   return (
     <div className="pointer-events-auto fixed left-4 top-4 z-30 flex max-h-[92vh] w-[330px] flex-col overflow-hidden rounded-2xl border border-white/20 bg-slate-950/85 text-slate-100 shadow-2xl backdrop-blur-md">
       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-        <h2 className="text-sm font-semibold">Editor Dunia</h2>
+        <h2 className="text-sm font-semibold">World Editor</h2>
         <div className="flex items-center gap-1">
           <button
             onClick={onSave}
@@ -186,17 +186,17 @@ export function WorldEditor() {
                   ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400"
                   : "bg-white/10"
             }`}
-            title="Autosave aktif — tombol ini memaksa simpan sekarang"
+            title="Autosave is on — this button forces a save now"
           >
             {s.bakeState === "saving"
-              ? "Menyimpan…"
+              ? "Saving…"
               : s.bakeState === "pending"
-                ? "Simpan •"
+                ? "Save •"
                 : s.bakeState === "error"
-                  ? "Coba lagi"
+                  ? "Retry"
                   : s.dirty
-                    ? "Simpan"
-                    : "Tersimpan ✓"}
+                    ? "Save"
+                    : "Saved ✓"}
           </button>
           <button
             onClick={() => s.setEditing(false)}
@@ -211,7 +211,7 @@ export function WorldEditor() {
         {/* ---- assets ------------------------------------------------ */}
         <section className="space-y-2">
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Aset Model
+            Model Assets
           </h3>
           <input
             ref={fileRef}
@@ -225,14 +225,14 @@ export function WorldEditor() {
             onClick={() => fileRef.current?.click()}
             className="w-full rounded-lg border border-dashed border-white/25 px-3 py-2 text-[11px] text-slate-300 hover:border-sky-400/70 hover:text-slate-50"
           >
-            + Impor file ({SUPPORTED_EXT.join(", ")})
+            + Import file ({SUPPORTED_EXT.join(", ")})
           </button>
 
           <div className="flex gap-1">
             <input
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
-              placeholder="/models/pulau.glb atau URL"
+              placeholder="/models/island.glb or URL"
               className="min-w-0 flex-1 rounded-lg border border-white/15 bg-slate-900/70 px-2 py-1.5 text-[11px] outline-none focus:border-sky-400/70"
             />
             <button
@@ -248,7 +248,7 @@ export function WorldEditor() {
               }}
               className="rounded-lg bg-sky-500 px-2.5 py-1.5 text-[11px] font-semibold text-slate-950 hover:bg-sky-400"
             >
-              Tambah
+              Add
             </button>
           </div>
 
@@ -267,7 +267,7 @@ export function WorldEditor() {
                   }
                   className="rounded-md bg-sky-500/90 px-2 py-0.5 text-[10px] font-semibold text-slate-950 hover:bg-sky-400"
                 >
-                  Tempatkan
+                  Place
                 </button>
                 <button
                   onClick={async () => {
@@ -281,7 +281,7 @@ export function WorldEditor() {
               </li>
             ))}
             {s.assets.length === 0 && (
-              <li className="text-[11px] text-slate-500">Belum ada aset diimpor.</li>
+              <li className="text-[11px] text-slate-500">No imported assets yet.</li>
             )}
           </ul>
         </section>
