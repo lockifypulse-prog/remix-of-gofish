@@ -143,7 +143,7 @@ export function worldAssetsDev(): Plugin {
             // Legacy URL (/models/x.glb) whose binary now lives on the asset CDN:
             // follow the committed pointer so old layouts keep working.
             try {
-              const pointer = JSON.parse(await readFile(path.join(MODEL_DIR, `${name}.asset.json`), "utf8")) as {
+              const pointer = JSON.parse(await readFile(path.join(POINTER_DIR, `${name}.asset.json`), "utf8")) as {
                 url?: string;
               };
               if (pointer.url) {
