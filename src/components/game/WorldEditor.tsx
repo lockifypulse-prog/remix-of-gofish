@@ -123,14 +123,14 @@ export function WorldEditor() {
   };
 
   const onSave = async () => {
-    setBusy("Menyimpan ke proyek…");
+    setBusy("Saving to project…");
     const ok = await s.save();
     setBusy(
       ok
-        ? "Layout tersimpan ke src/data/worldLayout.json ✔"
+        ? "Layout saved to src/data/worldLayout.json ✔"
         : canBakeToProject
-          ? `Gagal menulis ke kode proyek: ${useWorldStore.getState().bakeError ?? "?"}`
-          : "Tersimpan di perangkat ini (mode produksi).",
+          ? `Could not write to project code: ${useWorldStore.getState().bakeError ?? "?"}`
+          : "Saved on this device only (production mode).",
     );
     setTimeout(() => setBusy(null), 4000);
   };
@@ -149,9 +149,9 @@ export function WorldEditor() {
     const payload: WorldLayout = { version: 1, objects: s.objects };
     try {
       await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-      setBusy("JSON disalin — tempel ke src/data/worldLayout.json agar ikut saat clone/remix");
+      setBusy("JSON copied — paste it into src/data/worldLayout.json to keep it on clone/remix");
     } catch {
-      setBusy("Gagal menyalin, gunakan Export JSON");
+      setBusy("Could not copy, use Export JSON");
     }
     setTimeout(() => setBusy(null), 4000);
   };
