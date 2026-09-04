@@ -420,7 +420,7 @@ export function WorldEditor() {
             onClick={onCopyJson}
             className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] hover:bg-white/20"
           >
-            Salin JSON
+            Copy JSON
           </button>
           <input
             ref={importRef}
@@ -440,29 +440,29 @@ export function WorldEditor() {
             onClick={s.reload}
             className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] hover:bg-white/20"
           >
-            Muat Tersimpan
+            Load Saved
           </button>
           <button
             onClick={s.clearAll}
             className="rounded-lg bg-rose-500/70 px-2.5 py-1 text-[11px] font-semibold hover:bg-rose-500"
           >
-            Kosongkan
+            Clear All
           </button>
         </section>
 
         {localOnly > 0 && (
           <p className="rounded-lg border border-amber-400/40 bg-amber-500/10 px-2 py-1.5 text-[10px] leading-relaxed text-amber-200">
-            {localOnly} objek memakai aset lokal (IndexedDB) dan TIDAK akan ikut clone/remix.
-            Impor ulang file-nya lewat “Impor file” agar tersimpan ke public/models/.
+            {localOnly} object(s) use local-only assets (IndexedDB) and will NOT carry over on clone/remix.
+            Re-import the files via “Import file” so they are stored in public/models/.
           </p>
         )}
         <p className={`text-[10px] leading-relaxed ${s.bakeState === "error" ? "text-rose-300" : "text-slate-400"}`}>
           {busy ??
             (s.bakeState === "error"
-              ? `Autosave ke proyek GAGAL: ${s.bakeError}. Perubahan hanya ada di browser ini.`
+              ? `Project autosave FAILED: ${s.bakeError}. Changes only exist in this browser.`
               : canBakeToProject
-                ? "Autosave aktif: setiap perubahan otomatis ditulis ke src/data/worldLayout.json dan model impor ke public/models/ — keduanya ikut saat clone/remix."
-                : "Mode produksi: perubahan hanya tersimpan di perangkat ini. Gunakan editor di preview agar dibakar ke kode proyek.")}
+                ? "Autosave on: every change is written to src/data/worldLayout.json and imported models are copied to public/models/ — both carry over on clone/remix."
+                : "Production mode: changes only persist on this device. Use the editor in preview so edits are baked into the project.")}
         </p>
       </div>
     </div>
